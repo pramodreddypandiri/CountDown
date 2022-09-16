@@ -28,8 +28,15 @@ const deadLine = document.querySelector('.deladline');
 
 const items  = document.querySelectorAll('.deadline-format h4');
 
-let futureDate = new Date(2022 , 8, 25 , 18 ,0, 0);
-console.log(futureDate);
+
+let tempDate = new Date();
+let  tempYear = tempDate.getFullYear();
+let tempMonth = tempDate.getMonth();
+let tempDay = tempDate.getDate()
+
+
+let futureDate = new Date(tempYear,tempMonth,tempDay + 10 , 18 ,0, 0);
+//console.log(futureDate);
 
 const year = futureDate.getFullYear();
 let month = futureDate.getMonth();
@@ -54,13 +61,43 @@ const futureTime = futureDate.getTime();
 function getRemainingTime() {
   const today = new Date().getTime();
   const remaining = futureTime - today;
-  console.log(remaining);
+  //console.log("rem" + remaining);
   // 1s = 1000ms
   // 1m = 60s
   // 1hr = 60m
   // 1day = 24h
   //let remainingSeconds = remaining / 1000;
-
+  // values in ms
+  const oneDay = 24*60*60*1000;
+  const oneHour = 60*60*1000;
+  const oneMinute = 60*1000;
+  //calculate all values
+  let days = Math.floor(remaining / oneDay);
+  let hours = Math.floor((remaining % oneDay) / oneHour);
+  let minutes = Math.floor((remaining % oneHour) / oneMinute);
+  let seconds = Math.floor((remaining % oneMinute) / 1000);
+  // console.log(days);
+  // console.log(hours);
+  // console.log(minutes);
+  // console.log(seconds);
+  const values = [days,hours,minutes,seconds];
+  
+  // format in to two digit if number is less than 10 (i.e single digit)
+  function format (item){
+    if(item < 10){
+      return (`0${item}`)
+    }
+    return item
+  }
+  items.forEach( (item,index) => {
+    item.innerHTML = format(values[index])
+  });
+  if (remaining < 0){
+    clearInterval(countdown);
+    deadLine.innerHTML = `<h4 class ="expired" >Expired</h4>`
+  }
 }
-
+//count down interval
+let countdown = setInterval(getRemainingTime,1000);
+//countdown();
 getRemainingTime();
