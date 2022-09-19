@@ -36,7 +36,7 @@ let tempDay = tempDate.getDate()
 
 
 let futureDate = new Date(tempYear,tempMonth,tempDay + 10 , 18 ,0, 0);
-//console.log(futureDate);
+console.log(futureDate);
 
 const year = futureDate.getFullYear();
 let month = futureDate.getMonth();
@@ -52,7 +52,7 @@ if (hour >= 12){
 }
 
 //let currDate = new Date();
-//console.log(currDate);
+console.log(currDate);
 giveAway.textContent =  `Give away ends on ${weekdays[day]}, ${date} ${months[month]} ${year} ${hour}:${minutes}${meridian}`;
 
 const futureTime = futureDate.getTime();
@@ -93,6 +93,7 @@ function getRemainingTime() {
     item.innerHTML = format(values[index])
   });
   if (remaining < 0){
+    // it is important ot stop counter at zero
     clearInterval(countdown);
     deadLine.innerHTML = `<h4 class ="expired" >Expired</h4>`
   }
